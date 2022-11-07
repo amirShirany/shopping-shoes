@@ -2,7 +2,7 @@
 
 .mainNavigation {
 	width: 100%;
-	height: 4.5rem;
+	height: 3.5rem;
 	background-color: #c7d2fe;
 }
 
@@ -21,6 +21,8 @@
 }
 
 .mainNavigation li {
+	display: flex;
+	align-items: center;
 	margin: 0 1rem;
 }
 
@@ -35,4 +37,27 @@
 .activeLink {
 	color: blue;
 	background-color: #fff;
+}
+
+.activeLink {
+	color: rgb(192, 40, 230);
+}
+
+.cartLink {
+	position: relative;
+}
+
+.mainNavigation span {
+	right: -9px;
+	top: -9px;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: #6d28d9;
+	color: #fff;
+	font-size: 14px;
 }
