@@ -37,3 +37,15 @@
 	width: 150px;
 	height: 150px;
 }
+
+.summeryItem {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.summeryItem.net {
+	border-top: 2px solid hsla(0, 0%, 14%, 0.3);
+	padding-top: 3px;
+}
