@@ -49,3 +49,26 @@
 	border-top: 2px solid hsla(0, 0%, 14%, 0.3);
 	padding-top: 3px;
 }
+
+.btnGroup {
+	display: flex;
+}
+.btnGroup button {
+	outline: none;
+	color: #6d28d9;
+	background-color: #fff;
+	border: 1px solid #6d28d9;
+	padding: 5px 10px;
+}
+
+.btnGroup button:first-child {
+	border-radius: 5px 0 0 5px;
+}
+
+.btnGroup button:last-child {
+	border-radius: 0 5px 5px 0;
+}
+.btnGroup button:nth-child(2) {
+	border-left: 0;
+	border-right: 0;
+}
