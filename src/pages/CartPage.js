@@ -77,7 +77,7 @@ const CartSummery = ({ total, cart }) => {
 			<Link to='/checkout'>
 				<button
 					className='primary btn'
-					style={{ marginTop: '20px', width: '100%' }}>
+					style={{ marginTop: '100px', width: '100%' }}>
 					Go to Checkout
 				</button>
 			</Link>

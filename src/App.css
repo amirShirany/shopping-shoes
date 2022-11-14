@@ -65,3 +65,8 @@ body {
 	background-color: #6d28d9;
 	color: #fff;
 }
+
+button:disabled {
+	cursor: not-allowed;
+	background-color: rgb(190, 190, 190);
+}

@@ -1,0 +1,28 @@
+/** @format */
+
+button {
+	padding: 5px 15px;
+}
+
+.error {
+	color: red;
+}
+
+input[type='text'],
+input[type='tel'],
+input[type='email'],
+input[type='password'],
+select {
+	width: 350px;
+	padding: 6px 12px;
+	display: block;
+	color: rgb(60, 60, 60);
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+input:focus {
+	outline: none;
+	border: 3px solid #6d28d9 !important;
+}

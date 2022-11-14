@@ -1,0 +1,10 @@
+/** @format */
+.formControl {
+	margin-bottom: 20px;
+}
+
+.formMain {
+	display: flex;
+	justify-content: center;
+	margin-top: 2rem;
+}
