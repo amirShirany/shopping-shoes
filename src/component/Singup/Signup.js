@@ -1,8 +1,11 @@
 /** @format */
+import './Signup.css';
+import { useState } from 'react';
 import { useFormik } from 'formik';
+import { signupUser } from '../../services/signupService';
+import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import Input from '../../common/Input';
-import './Signup.css';
 
 const initialValues = {
 	name: '',
@@ -10,14 +13,6 @@ const initialValues = {
 	phoneNumber: '',
 	password: '',
 	passwordConfirm: '',
-};
-
-const onSubmit = (Values) => {
-	console.log(Values);
-	// axios
-	// 	.post('http://localhost:3001/Users', Values)
-	// 	.then((res) => console.log(res.data))
-	// 	.catch((err) => console.log(err));
 };
 
 const validationSchema = yup.object({
@@ -37,14 +32,12 @@ const validationSchema = yup.object({
 		.matches(/^[0-9]{8,11}$/, 'Phone number is not valid')
 		.nullable(),
 
-	password: yup
-		.string()
-		.min(8, 'should be 8 chars minimum')
-		.matches(
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-			'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
-		)
-		.required('Password is required'),
+	password: yup.string().required('Password is required'),
+	// .min(8, 'should be 8 chars minimum'),
+	// .matches(
+	// 	/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+	// 	'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
+	// )
 
 	passwordConfirm: yup
 		.string()
@@ -53,6 +46,27 @@ const validationSchema = yup.object({
 });
 
 const SignupForm = () => {
+	const [error, setError] = useState(null);
+
+	const onSubmit = async (Values) => {
+		const { name, email, phoneNumber, password } = Values;
+		const userData = {
+			name,
+			email,
+			phoneNumber,
+			password,
+		};
+
+		try {
+			await signupUser(userData);
+			setError(null);
+		} catch (error) {
+			if (error.response && error.response.data.message) {
+				setError(error.response.data.message);
+			}
+		}
+	};
+
 	const formik = useFormik({
 		initialValues,
 		onSubmit,
@@ -88,8 +102,12 @@ const SignupForm = () => {
 					type='submit'
 					className='btn primary'
 					disabled={!formik.isValid}>
-					submit
+					Signup
 				</button>
+				{error && <p style={{ color: 'red' }}>error is : {error}</p>}
+				<Link to='/login'>
+					<p style={{ marginTop: '1rem' }}>Already Login?</p>
+				</Link>
 			</form>
 		</div>
 	);

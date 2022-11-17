@@ -1,21 +1,15 @@
 /** @format */
+import './Login.css';
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Link } from 'react-router-dom';
+import { loginUser } from '../../services/loginService';
 import Input from '../../common/Input';
-import './Login.css';
 
 const initialValues = {
 	email: '',
 	password: '',
-};
-
-const onSubmit = (Values) => {
-	console.log(Values);
-	// axios
-	// 	.post('http://localhost:3001/Users', Values)
-	// 	.then((res) => console.log(res.data))
-	// 	.catch((err) => console.log(err));
 };
 
 const validationSchema = yup.object({
@@ -35,6 +29,23 @@ const validationSchema = yup.object({
 });
 
 const SignupForm = () => {
+	const [error, setError] = useState(null);
+	const onSubmit = async (Values) => {
+		const { email, password } = Values;
+		const userData = {
+			email,
+			password,
+		};
+		try {
+			await loginUser(userData);
+			setError(null);
+		} catch (error) {
+			if (error.response && error.response.data.message) {
+				setError(error.response.data.message);
+			}
+		}
+	};
+
 	const formik = useFormik({
 		initialValues,
 		onSubmit,
@@ -59,6 +70,7 @@ const SignupForm = () => {
 					disabled={!formik.isValid}>
 					Login
 				</button>
+				{error && <p style={{ color: 'red' }}> {error}</p>}
 				<Link to='/signup'>
 					<p style={{ marginTop: '1rem' }}>Not signup yet?</p>
 				</Link>
