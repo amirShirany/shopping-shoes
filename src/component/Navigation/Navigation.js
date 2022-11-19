@@ -9,6 +9,7 @@ const Navigation = () => {
 		<header className='mainNavigation'>
 			<nav>
 				<ul>
+					<div>"Amirhossein Shoping"</div>
 					<li>
 						<NavLink
 							to='/'
@@ -16,6 +17,9 @@ const Navigation = () => {
 							home
 						</NavLink>
 					</li>
+				</ul>
+
+				<ul>
 					<li className='cartLink'>
 						<NavLink
 							to='/cart'
@@ -24,8 +28,14 @@ const Navigation = () => {
 						</NavLink>
 						<span>{cart.length}</span>
 					</li>
+					<li>
+						<NavLink
+							to='/login'
+							className={(navData) => (navData.isActive ? 'activeLink' : '')}>
+							login / signup
+						</NavLink>
+					</li>
 				</ul>
-				<h4>"Amirhossein Shoping"</h4>
 			</nav>
 		</header>
 	);

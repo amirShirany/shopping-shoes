@@ -3,7 +3,7 @@ import './Login.css';
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { loginUser } from '../../services/loginService';
 import Input from '../../common/Input';
 
@@ -21,15 +21,19 @@ const validationSchema = yup.object({
 	password: yup
 		.string()
 		.min(8, 'should be 8 chars minimum')
-		.matches(
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-			'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
-		)
+		// .matches(
+		// 	/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+		// 	'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
+		// )
 		.required('Password is required'),
 });
 
-const SignupForm = () => {
+const LoginForm = () => {
+	const params = useParams();
+	const navigate = useNavigate();
+
 	const [error, setError] = useState(null);
+
 	const onSubmit = async (Values) => {
 		const { email, password } = Values;
 		const userData = {
@@ -39,6 +43,7 @@ const SignupForm = () => {
 		try {
 			await loginUser(userData);
 			setError(null);
+			navigate('/');
 		} catch (error) {
 			if (error.response && error.response.data.message) {
 				setError(error.response.data.message);
@@ -79,4 +84,4 @@ const SignupForm = () => {
 	);
 };
 
-export default SignupForm;
+export default LoginForm;
