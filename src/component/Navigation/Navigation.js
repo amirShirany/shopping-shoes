@@ -1,10 +1,12 @@
 /** @format */
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../../Providers/AuthProvider';
 import { useCart } from '../../Providers/CartProvider';
 import './Navigation.css';
 
 const Navigation = () => {
 	const { cart } = useCart();
+	const userData = useAuth();
 	return (
 		<header className='mainNavigation'>
 			<nav>
@@ -30,9 +32,9 @@ const Navigation = () => {
 					</li>
 					<li>
 						<NavLink
-							to='/login'
+							to={userData ? '/profile' : '/login'}
 							className={(navData) => (navData.isActive ? 'activeLink' : '')}>
-							login / signup
+							{userData ? 'profile' : 'login/signup'}
 						</NavLink>
 					</li>
 				</ul>

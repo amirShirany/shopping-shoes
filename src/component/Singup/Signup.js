@@ -3,8 +3,9 @@ import './Signup.css';
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import { signupUser } from '../../services/signupService';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate, json } from 'react-router-dom';
 import * as yup from 'yup';
+import { useAuthActions } from '../../Providers/AuthProvider';
 import Input from '../../common/Input';
 
 const initialValues = {
@@ -46,10 +47,9 @@ const validationSchema = yup.object({
 });
 
 const SignupForm = () => {
+	const setAuth = useAuthActions();
 	const params = useParams();
-	console.log(params);
 	const navigate = useNavigate();
-
 	const [error, setError] = useState(null);
 
 	const onSubmit = async (Values) => {
@@ -62,7 +62,9 @@ const SignupForm = () => {
 		};
 
 		try {
-			await signupUser(userData);
+			const { data } = await signupUser(userData);
+			setAuth(data);
+			// localStorage.setItem('authState', json.stringify(data));
 			setError(null);
 			navigate('/');
 		} catch (error) {

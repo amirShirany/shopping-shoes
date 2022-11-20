@@ -1,10 +1,11 @@
 /** @format */
 import './Login.css';
 import { useState } from 'react';
-import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
 import { loginUser } from '../../services/loginService';
+import { Link, useParams, useNavigate, json } from 'react-router-dom';
+import { useAuthActions } from '../../Providers/AuthProvider';
 import Input from '../../common/Input';
 
 const initialValues = {
@@ -29,9 +30,9 @@ const validationSchema = yup.object({
 });
 
 const LoginForm = () => {
+	const setAuth = useAuthActions();
 	const params = useParams();
 	const navigate = useNavigate();
-
 	const [error, setError] = useState(null);
 
 	const onSubmit = async (Values) => {
@@ -41,9 +42,11 @@ const LoginForm = () => {
 			password,
 		};
 		try {
-			await loginUser(userData);
-			setError(null);
+			const { data } = await loginUser(userData);
+			setAuth(data);
 			navigate('/');
+			// localStorage.setItem('authState', json.stringify(data));
+			setError(null);
 		} catch (error) {
 			if (error.response && error.response.data.message) {
 				setError(error.response.data.message);
