@@ -1,11 +1,12 @@
 /** @format */
 import './Signup.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { signupUser } from '../../services/signupService';
-import { Link, useParams, useNavigate, json } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { useAuthActions } from '../../Providers/AuthProvider';
+import { useAuth, useAuthActions } from '../../Providers/AuthProvider';
+import { useQuery } from '../../hooks/useQuery';
 import Input from '../../common/Input';
 
 const initialValues = {
@@ -47,9 +48,18 @@ const validationSchema = yup.object({
 });
 
 const SignupForm = () => {
+	const query = useQuery();
+	// const redirect = query.get('redirect') || '/';
+	const auth = useAuth();
+	// console.log(redirect);
+
+	useEffect(() => {
+		if (auth) navigate('/checkout');
+	}, [auth]);
+
 	const setAuth = useAuthActions();
-	const params = useParams();
 	const navigate = useNavigate();
+
 	const [error, setError] = useState(null);
 
 	const onSubmit = async (Values) => {
@@ -66,7 +76,6 @@ const SignupForm = () => {
 			setAuth(data);
 			// localStorage.setItem('authState', json.stringify(data));
 			setError(null);
-			navigate('/');
 		} catch (error) {
 			if (error.response && error.response.data.message) {
 				setError(error.response.data.message);
@@ -112,7 +121,7 @@ const SignupForm = () => {
 					Signup
 				</button>
 				{error && <p style={{ color: 'red' }}>error is : {error}</p>}
-				<Link to='/login'>
+				<Link to={auth ? '/checkout' : '/login'}>
 					<p style={{ marginTop: '1rem' }}>Already Login?</p>
 				</Link>
 			</form>

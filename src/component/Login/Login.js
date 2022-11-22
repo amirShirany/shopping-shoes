@@ -1,11 +1,12 @@
 /** @format */
 import './Login.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { loginUser } from '../../services/loginService';
-import { Link, useParams, useNavigate, json } from 'react-router-dom';
-import { useAuthActions } from '../../Providers/AuthProvider';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthActions, useAuth } from '../../Providers/AuthProvider';
+import { useQuery } from '../../hooks/useQuery';
 import Input from '../../common/Input';
 
 const initialValues = {
@@ -30,8 +31,15 @@ const validationSchema = yup.object({
 });
 
 const LoginForm = () => {
+	const query = useQuery();
+	const auth = useAuth();
+	// const redirect = query.get('redirect') || '/';
+	// console.log(redirect);
+	useEffect(() => {
+		if (auth) navigate('/checkout');
+	}, [auth]);
+
 	const setAuth = useAuthActions();
-	const params = useParams();
 	const navigate = useNavigate();
 	const [error, setError] = useState(null);
 
@@ -44,7 +52,7 @@ const LoginForm = () => {
 		try {
 			const { data } = await loginUser(userData);
 			setAuth(data);
-			navigate('/');
+			// navigate(redirect);
 			// localStorage.setItem('authState', json.stringify(data));
 			setError(null);
 		} catch (error) {
@@ -71,6 +79,7 @@ const LoginForm = () => {
 					name='password'
 					type='password'
 				/>
+
 				<button
 					style={{ width: '100%', padding: '.5rem 0' }}
 					type='submit'
@@ -79,7 +88,8 @@ const LoginForm = () => {
 					Login
 				</button>
 				{error && <p style={{ color: 'red' }}> {error}</p>}
-				<Link to='/signup'>
+
+				<Link to={auth ? '/checkout' : '/signup'}>
 					<p style={{ marginTop: '1rem' }}>Not signup yet?</p>
 				</Link>
 			</form>

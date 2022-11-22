@@ -1,8 +1,9 @@
 /** @format */
-import { Link } from 'react-router-dom';
-import Layout from '../Layout/Layout';
-import { useCart, useCartActions } from '../Providers/CartProvider';
 import './CartPage.css';
+import Layout from '../Layout/Layout';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../Providers/AuthProvider';
+import { useCart, useCartActions } from '../Providers/CartProvider';
 
 const CartPage = () => {
 	const { cart, total } = useCart();
@@ -56,6 +57,7 @@ const CartPage = () => {
 export default CartPage;
 
 const CartSummery = ({ total, cart }) => {
+	const auth = useAuth();
 	const originalTotalPrice = cart.length
 		? cart.reduce((acc, curr) => acc + curr.quantity * curr.price, 0)
 		: 0;
@@ -74,7 +76,7 @@ const CartSummery = ({ total, cart }) => {
 				<p>net price :</p>
 				<p>{total} $</p>
 			</div>
-			<Link to='/checkout'>
+			<Link to={auth ? '/checkout' : '/signup'}>
 				<button
 					className='primary btn'
 					style={{ marginTop: '100px', width: '100%' }}>
