@@ -33,6 +33,11 @@
 	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
+.checkout {
+	margin-top: auto;
+	padding: 0.5rem 0;
+}
+
 .itemImg img {
 	width: 150px;
 	height: 150px;
