@@ -1,13 +1,12 @@
-/** @format */
-import axios from 'axios';
+import axios from "axios"
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = "http://localhost:5000/api"
 
 const http = {
-	get: axios.get,
-	post: axios.post,
-	put: axios.put,
-	delete: axios.delete,
-};
+  get: axios.get,
+  post: axios.post,
+  put: axios.put,
+  delete: axios.delete,
+}
 
-export default http;
+export default http

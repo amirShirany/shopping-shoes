@@ -1,4 +1,3 @@
-/** @format */
 import { createContext, useContext, useReducer } from "react"
 import cartReducer from "./CartReducer"
 
