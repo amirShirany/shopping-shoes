@@ -8,7 +8,7 @@ const Navigation = () => {
 	const {cart} = useCart();
 	const userData = useAuth();
 	return (
-		<header className='mainNavigation'>
+		<header className='mainNavigation z-10'>
 			<nav>
 				<ul>
 					<div>"Amirhossein Shoping"</div>
